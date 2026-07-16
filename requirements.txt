@@ -1,0 +1,7 @@
+streamlit
+langgraph
+langchain-openai
+langchain-chroma
+langchain-core
+langchain-text-splitters
+pydantic>=2.0,<3.0
