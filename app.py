@@ -1,8 +1,9 @@
 import os
 import streamlit as st
 
+# We read your GitHub token from the same Secrets variable
 if "OPENAI_API_KEY" in st.secrets:
-    os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+    os.environ["GITHUB_TOKEN"] = st.secrets["OPENAI_API_KEY"]
 
 from typing import TypedDict, List
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -27,13 +28,19 @@ def build_retriever():
     splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=50)
     docs = [Document(page_content=p["text"], metadata={"source": p["id"]}) for p in policies]
     chunks = splitter.split_documents(docs)
-    # Uses a local, free mathematical keyword matcher (BM25) instead of paid OpenAI embeddings!
     retriever = BM25Retriever.from_documents(chunks)
     retriever.k = 3
     return retriever
 
 retriever = build_retriever()
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+
+# Directing the LLM to use GitHub's free AI hosting gateway!
+llm = ChatOpenAI(
+    model="gpt-4o-mini",
+    openai_api_key=os.environ.get("GITHUB_TOKEN"),
+    openai_api_base="https://models.inference.ai.azure.com",
+    temperature=0
+)
 
 class ClaimState(TypedDict, total=False):
     claim: str
