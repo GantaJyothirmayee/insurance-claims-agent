@@ -6,7 +6,7 @@ if "OPENAI_API_KEY" in st.secrets:
 
 from typing import TypedDict, List
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain.docstore.document import Document
+from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_chroma import Chroma
 from langgraph.graph import StateGraph, END
