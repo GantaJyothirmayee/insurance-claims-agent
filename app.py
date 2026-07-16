@@ -7,8 +7,8 @@ if "OPENAI_API_KEY" in st.secrets:
 from typing import TypedDict, List
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from langchain_chroma import Chroma
+from langchain_openai import ChatOpenAI
+from langchain_community.retrievers import BM25Retriever
 from langgraph.graph import StateGraph, END
 
 st.set_page_config(page_title="Insurance Claims Agent", page_icon="🛡️", layout="wide")
@@ -27,9 +27,10 @@ def build_retriever():
     splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=50)
     docs = [Document(page_content=p["text"], metadata={"source": p["id"]}) for p in policies]
     chunks = splitter.split_documents(docs)
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-    vectorstore = Chroma.from_documents(chunks, embeddings, collection_name="insurance_policies")
-    return vectorstore.as_retriever(search_kwargs={"k":3})
+    # Uses a local, free mathematical keyword matcher (BM25) instead of paid OpenAI embeddings!
+    retriever = BM25Retriever.from_documents(chunks)
+    retriever.k = 3
+    return retriever
 
 retriever = build_retriever()
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
