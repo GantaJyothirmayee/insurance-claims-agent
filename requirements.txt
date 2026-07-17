@@ -2,6 +2,7 @@ streamlit
 langgraph
 langchain-openai
 langchain-community
+duckduckgo-search
 rank_bm25
 langchain-core
 langchain-text-splitters
