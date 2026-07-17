@@ -1,5 +1,8 @@
 import os
 import streamlit as st
+import urllib.request
+import urllib.parse
+import re
 
 if "OPENAI_API_KEY" in st.secrets:
     os.environ["GITHUB_TOKEN"] = st.secrets["OPENAI_API_KEY"]
@@ -9,7 +12,6 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 from langchain_openai import ChatOpenAI
 from langchain_community.retrievers import BM25Retriever
-from langchain_community.tools import DuckDuckGoSearchRun
 from langgraph.graph import StateGraph, END
 
 st.set_page_config(page_title="ClaimGraph: Intelligent Hybrid Agent", page_icon="🛡️", layout="wide")
@@ -41,7 +43,25 @@ def build_dynamic_retriever(text_content: str):
     return retriever
 
 retriever = build_dynamic_retriever(raw_policy_input)
-web_search_tool = DuckDuckGoSearchRun()
+
+# Native, zero-dependency search fallback helper 
+def native_web_search(query: str) -> str:
+    try:
+        url = f"https://html.duckduckgo.com/html/?q={urllib.parse.quote(query)}"
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'}
+        )
+        with urllib.request.urlopen(req, timeout=5) as response:
+            html = response.read().decode('utf-8')
+            # Extract plain text content snippets from the HTML result layout
+            snippets = re.findall(r'<a class="result__snippet"[^>]*>(.*?)</a>', html, re.DOTALL)
+            if snippets:
+                clean_text = " ".join([re.sub(r'<[^>]+>', '', s).strip() for s in snippets[:3]])
+                return clean_text
+            return "No text snippets extracted from search interface results."
+    except Exception as e:
+        return f"Web search could not populate context: {str(e)}"
 
 llm = ChatOpenAI(
     model="gpt-4o-mini",
@@ -79,11 +99,7 @@ def rewrite_node(state: ClaimState):
 
 def web_search_node(state: ClaimState):
     search_query = state.get("query") or state["claim"]
-    try:
-        search_result = web_search_tool.invoke(search_query)
-    except Exception:
-        search_result = "Web search failed or timed out. Evaluating with fallback context."
-    
+    search_result = native_web_search(search_query)
     return {
         **state,
         "retrieved_docs": [f"[LIVE WEB SEARCH RESULT]: {search_result}"],
@@ -110,7 +126,6 @@ def escalate_node(state: ClaimState):
         "reasoning": "Claim details could not be verified by local context or web indexes."
     }
 
-# Workflow routing rules handling local vs fallback trajectories
 def relevance_router(state: ClaimState):
     if "yes" in state.get("relevance_score", ""):
         return "decide"
