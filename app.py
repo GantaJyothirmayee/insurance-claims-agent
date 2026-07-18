@@ -5,6 +5,7 @@ import urllib.parse
 import json
 import re
 
+# Route to the free GitHub Models gateway token inside Streamlit Secrets
 if "OPENAI_API_KEY" in st.secrets:
     os.environ["GITHUB_TOKEN"] = st.secrets["OPENAI_API_KEY"]
 
@@ -32,6 +33,7 @@ default_policies = (
 
 raw_policy_input = st.sidebar.text_area("Active Policies Context", value=default_policies, height=350)
 
+# Local RAG Indexer
 def build_dynamic_retriever(text_content: str):
     lines = [line.strip() for line in text_content.split("\n\n") if line.strip()]
     splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=50)
@@ -45,10 +47,9 @@ def build_dynamic_retriever(text_content: str):
 
 retriever = build_dynamic_retriever(raw_policy_input)
 
-# High-stability API Search Engine Fallback (Uses standard API interfaces to ensure data delivery)
+# Zero-Dependency API Search Fallback
 def robust_web_search(query: str) -> str:
     try:
-        # We query the open Wikipedia API engine as a guaranteed, highly descriptive textbook fallback context 
         formatted_query = urllib.parse.quote(query)
         url = f"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={formatted_query}&format=json&utf8="
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -62,23 +63,23 @@ def robust_web_search(query: str) -> str:
                 for result in search_results[:3]:
                     title = result.get("title")
                     snippet = result.get("snippet")
-                    # Clean up HTML bold elements returned by the search endpoint
                     clean_snippet = re.sub(r'<[^>]+>', '', snippet).strip()
                     snippets.append(f"Source [{title}]: {clean_snippet}...")
                 return " | ".join(snippets)
             
-        # Alternative light web lookup fallback if index yields nothing
         return f"Real-world search context matching context rules for '{query}': Device protection contracts usually outline terms for accidental handling, coverage limits, structural damage clauses, and component repair verification policies."
     except Exception as e:
         return f"Standard framework protection data: Coverage evaluations for unexpected occurrences rely heavily on consumer protection frameworks, equipment replacement parameters, and verifiable accidental damage limits."
 
+# Model Init configured for GitHub's Free AI Marketplace Tier endpoints
 llm = ChatOpenAI(
-    model="gpt-4o-mini",
+    model="openai/gpt-4o-mini",
     openai_api_key=os.environ.get("GITHUB_TOKEN"),
-    openai_api_base="https://models.inference.ai.azure.com",
+    openai_api_base="https://models.github.ai/inference",
     temperature=0
 )
 
+# Centralized Memory State Block
 class ClaimState(TypedDict, total=False):
     claim: str
     query: str
@@ -90,6 +91,7 @@ class ClaimState(TypedDict, total=False):
     grounded: bool
     is_web_searched: bool
 
+# Graph Nodes
 def retrieve_node(state: ClaimState):
     q = state.get("query") or state["claim"]
     retrieved_docs = [d.page_content for d in retriever.invoke(q)]
@@ -134,11 +136,13 @@ def escalate_node(state: ClaimState):
         "reasoning": "Claim details could not be verified by local context or web indexes."
     }
 
+# Graph Flow Routing Engine
 def relevance_router(state: ClaimState):
     if "yes" in state.get("relevance_score", ""):
         return "decide"
     return "web_search"
 
+# Building the Architecture
 graph = StateGraph(ClaimState)
 graph.add_node("retrieve", retrieve_node)
 graph.add_node("grade", grade_node)
@@ -160,7 +164,7 @@ graph.add_edge("decide", END)
 graph.add_edge("escalate", END)
 agent = graph.compile()
 
-# User Presentation View
+# UI Layout View Engine
 claim = st.text_area("Describe the claim:", height=150, placeholder="Type your auto claim or a completely random claim here...")
 
 if st.button("Submit claim", type="primary"):
@@ -171,7 +175,7 @@ if st.button("Submit claim", type="primary"):
         dec = result.get("decision", "").lower()
         was_fallback = result.get("is_web_searched", False)
         
-        # Display the custom message requested if web fallback occurred
+        # Transparent workflow notification banner
         if was_fallback:
             st.warning("⚠️ The claim which you gave is not matched with our policies, so it is doing a web search.")
             
