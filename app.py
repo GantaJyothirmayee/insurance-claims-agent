@@ -33,15 +33,19 @@ default_policies = (
 
 raw_policy_input = st.sidebar.text_area("Active Policies Context", value=default_policies, height=350)
 
-# Local RAG Indexer
+# Global variables to store all chunks for semantic context validation
+all_policy_chunks = []
+
+# Local RAG Indexer utilizing chunking splitters
 def build_dynamic_retriever(text_content: str):
+    global all_policy_chunks
     lines = [line.strip() for line in text_content.split("\n\n") if line.strip()]
     splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=50)
     docs = [Document(page_content=text, metadata={"source": f"policy_{i+1}"}) for i, text in enumerate(lines)]
     if not docs:
         docs = [Document(page_content="No active policy guidelines provided.")]
-    chunks = splitter.split_documents(docs)
-    retriever = BM25Retriever.from_documents(chunks)
+    all_policy_chunks = splitter.split_documents(docs)
+    retriever = BM25Retriever.from_documents(all_policy_chunks)
     retriever.k = 3
     return retriever
 
@@ -98,8 +102,19 @@ def retrieve_node(state: ClaimState):
     return {**state, "retrieved_docs": retrieved_docs, "is_web_searched": False}
 
 def grade_node(state: ClaimState):
-    docs = "\n".join(state["retrieved_docs"])
-    r = llm.invoke(f'Claim:{state["claim"]}\nPolicy Context:\n{docs}\nDoes this local policy context contain clear rules to decide this claim? Answer strictly with yes or no.')
+    # To handle cases where wording differs but meaning is the same, 
+    # we feed all available policy chunks to the LLM grader to check for contextual alignment.
+    full_context = "\n".join([c.page_content for c in all_policy_chunks])
+    
+    prompt = (
+        f"Claim: {state['claim']}\n\n"
+        f"Available Insurance Policies:\n{full_context}\n\n"
+        "Does the claim fall under the topics covered by these local policies (e.g., auto accidents, vehicle water damage, auto insurance contract issues)? "
+        "Answer strictly with 'yes' if it is an auto/vehicle policy topic (even if it will be denied by the rules or phrased in similar but not identical words). "
+        "Answer strictly with 'no' ONLY if the claim is completely out-of-scope (e.g., home insurance, medical health, travel luggage, electronics)."
+    )
+    
+    r = llm.invoke(prompt)
     score = r.content.strip().lower()
     return {**state, "relevance_score": score}
 
@@ -117,8 +132,13 @@ def web_search_node(state: ClaimState):
     }
 
 def decide_node(state: ClaimState):
-    docs = "\n".join(state["retrieved_docs"])
-    context_type = "Web Search Context" if state.get("is_web_searched") else "Policy Rules"
+    # If it is a local policy match, make sure the decision node reads the exact matched chunks
+    if not state.get("is_web_searched"):
+        docs = "\n".join(state["retrieved_docs"])
+        context_type = "Policy Rules"
+    else:
+        docs = "\n".join(state["retrieved_docs"])
+        context_type = "Web Search Context"
     
     r = llm.invoke(f'Claim:{state["claim"]}\n{context_type}:\n{docs}\nDecide if this claim is approved, deny, or escalate. Format your answer exactly like this:\nLine 1: decision word only (approve, deny, or escalate)\nLine 2: Brief objective reasoning string.')
     parts = r.content.strip().split("\n", 1)
