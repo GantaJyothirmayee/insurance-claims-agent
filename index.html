@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>SOLI — Creative worlds built for brands that want to stand out.</title>
+<meta name="description" content="SOLI is an unlimited creative partner. PASS SOLI+, START+ and PROJECT+ — enter the SOLI universe." />
+<link rel="stylesheet" href="css/style.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "./js/vendor/three/three.module.min.js",
+    "three/addons/": "./js/vendor/three/"
+  }
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="grain"></div>
+
+<div id="loader">
+  <div class="mark">SOLI<b>+</b></div>
+  <div class="bar"><i id="loadbar"></i></div>
+  <div class="hint">Entering the world</div>
+</div>
+
+<nav id="nav">
+  <a class="mark" href="#hero-track" aria-label="SOLI home"><b>SOLI</b><span class="plus">+</span></a>
+  <div class="links">
+    <a class="navlink" href="#who">Who we are</a>
+    <a class="navlink" href="#services">Services</a>
+    <a class="navlink" href="#pricing">Pricing</a>
+    <a class="navlink" href="#process">Process</a>
+    <a class="navlink" href="#portfolio">Portfolio</a>
+  </div>
+  <a class="navcta" href="#cta-track">Start your journey</a>
+</nav>
+
+<main id="main">
+
+<!-- ============================================================
+     1. ENTER SOLI WORLD (hero, frame-scrub)
+     ============================================================ -->
+<section class="stage-track" id="hero-track" style="height:340vh;">
+  <div class="stage">
+    <canvas id="hero-canvas" class="film"></canvas>
+    <canvas id="hero-fx" class="fx"></canvas>
+    <div class="grade"></div>
+    <div class="vignette"></div>
+
+    <div class="caption cap-center" id="hero-title" data-in="-0.05" data-hold="0.05" data-out="0.16">
+      <p class="kicker accent" style="margin-bottom:22px;">SOLI — Creative Agency</p>
+      <h1 id="hero-h1" style="overflow:hidden;">Creative worlds built<br>for brands that want<br>to <em style="font-style:italic;">stand out.</em></h1>
+    </div>
+
+    <div class="caption cap-left" data-in="0.30" data-hold="0.42" data-out="0.55">
+      <p class="kicker">Enter</p>
+      <h2>A world<br>built for ideas.</h2>
+    </div>
+
+    <div class="caption cap-right" data-in="0.62" data-hold="0.74" data-out="0.88">
+      <p class="kicker">Somewhere in the fog</p>
+      <h2>creativity<br><span class="glow-text">is taking shape.</span></h2>
+    </div>
+
+    <div id="scroll-cue">Scroll</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. WHO WE ARE (WebGL glow moment)
+     ============================================================ -->
+<section class="gl-track" id="who-track" style="height:260vh;">
+  <div class="gl-stage" id="who">
+    <canvas id="who-canvas"></canvas>
+    <div class="vignette" style="z-index:4;"></div>
+    <div class="gl-copy cap-center" id="who-copy">
+      <p class="kicker accent">Who we are</p>
+      <h2 style="max-width:13ch; margin:0 auto;">We turn raw creative energy<br>into <span class="glow-text">brand worlds.</span></h2>
+      <p class="lead" style="margin:22px auto 0; text-align:center;">SOLI is not a design service. SOLI is a creative partner —<br>a standing studio inside your company, without the overhead of one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. SERVICES — what we make
+     ============================================================ -->
+<section class="bp" id="services">
+  <div data-reveal style="text-align:center; max-width:720px; margin:0 auto 8vh;">
+    <p class="kicker accent">What we make</p>
+    <h2 style="max-width:none; margin-top:18px;">Every format your brand needs, on tap.</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card" data-reveal>
+      <div class="service-icon" style="color:var(--cyan);" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="26" height="22" rx="2"/><circle cx="11" cy="13" r="3"/><path d="M3 23l7-7 5 5 5-6 9 9"/></svg>
+      </div>
+      <h3>Visuals</h3>
+      <p class="lead">Social posts, ad creative, presentation slides, one-off graphics — anything static or looping, on-brand and fast.</p>
+      <div class="service-meta"><span class="pill">Delivery: 2–5 days</span></div>
+    </div>
+    <div class="service-card" data-reveal data-reveal-delay="1">
+      <div class="service-icon" style="color:var(--purple);" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="26" height="22" rx="4"/><path d="M13 11l9 5-9 5z" fill="currentColor" stroke="none"/></svg>
+      </div>
+      <h3>Video</h3>
+      <p class="lead">Format up to 1 minute — motion design, presentations, simple edits, creative ads.</p>
+      <div class="service-meta"><span class="pill">Delivery: 4–14 days</span></div>
+    </div>
+    <div class="service-card" data-reveal data-reveal-delay="2">
+      <div class="service-icon" style="color:var(--lilac);" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="7" y="3" width="20" height="20" rx="2"/><rect x="3" y="9" width="20" height="20" rx="2" fill="#050505"/></svg>
+      </div>
+      <h3>Print</h3>
+      <p class="lead">Business cards, brochures, packaging, posters — print-ready files, built to spec.</p>
+      <div class="service-meta"><span class="pill">Delivery: 3–7 days</span></div>
+    </div>
+    <div class="service-card" data-reveal data-reveal-delay="3">
+      <div class="service-icon" style="color:var(--magenta);" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="9" y="2" width="16" height="22" rx="2"/><rect x="5" y="6" width="16" height="22" rx="2" fill="#050505"/><rect x="1" y="10" width="16" height="22" rx="2" fill="#050505"/></svg>
+      </div>
+      <h3>Multi-page</h3>
+      <p class="lead">Websites, decks, catalogs, pitch documents — full multi-page layouts, structured and shipped.</p>
+      <div class="service-meta"><span class="pill">Delivery: 5–12 days</span></div>
+    </div>
+  </div>
+  <p class="lead" style="text-align:center; margin:6vh auto 0; font-size:12px;">Delivery times are indicative and vary with complexity and revision rounds.</p>
+</section>
+
+<!-- ============================================================
+     4. SERVICE WORLDS
+     ============================================================ -->
+<section class="bp bp-tight" id="worlds" style="padding-bottom:2vh;">
+  <div data-reveal style="text-align:center; max-width:720px; margin:0 auto 2vh;">
+    <p class="kicker accent">Three worlds, one studio</p>
+    <h2 style="max-width:none; margin-top:18px;">Pick the way you want to create.</h2>
+  </div>
+</section>
+
+<!-- 3a. START+ — Essentiel tier -->
+<section class="gl-track" id="start-track" style="height:240vh;">
+  <div class="gl-stage" id="start">
+    <canvas id="start-canvas"></canvas>
+    <div class="vignette" style="z-index:4;"></div>
+    <div class="gl-copy cap-right">
+      <p class="kicker" style="color:var(--lilac);">Essentiel — Growth</p>
+      <h2>START<span style="color:var(--lilac);">+</span></h2>
+      <p class="lead" style="margin-top:18px; margin-left:auto;">For entrepreneurs and new brands. A small idea, grown into
+        a complete brand world — branding, launch materials, creative direction.</p>
+      <div style="margin-top:26px; display:flex; align-items:baseline; gap:10px; justify-content:flex-end;">
+        <span style="font-family:var(--f-display); font-size:38px;">1,500€</span>
+        <span class="lead" style="margin:0;">/ month — no commitment</span>
+      </div>
+      <a class="cta-btn" href="#cta-track" style="pointer-events:auto;">Start your brand</a>
+    </div>
+  </div>
+</section>
+
+<!-- 3b. PASS SOLI+ — Signature tier, unlimited creative universe -->
+<section class="gl-track" id="pass-track" style="height:240vh;">
+  <div class="gl-stage" id="pass">
+    <canvas id="pass-canvas"></canvas>
+    <div class="vignette" style="z-index:4;"></div>
+    <div class="gl-copy cap-left">
+      <p class="kicker" style="color:var(--cyan);">Signature — Unlimited</p>
+      <h2>PASS SOLI<span style="color:var(--cyan);">+</span></h2>
+      <p class="lead" style="margin-top:18px;">A limitless creative universe where ideas continuously evolve.
+        Visuals, video, print, multi-page, identity — request without limits, all styles, all sectors.</p>
+      <div style="margin-top:26px; display:flex; align-items:baseline; gap:10px;">
+        <span style="font-family:var(--f-display); font-size:38px;">4,500€</span>
+        <span class="lead" style="margin:0;">/ month — no commitment</span>
+      </div>
+      <a class="cta-btn" href="#cta-track" style="pointer-events:auto;">Activate the pass</a>
+    </div>
+  </div>
+</section>
+
+<!-- 3c. PROJECT+ — futuristic workshop (frame-scrub, shot 2) -->
+<section class="stage-track" id="project-track" style="height:280vh;">
+  <div class="stage">
+    <canvas id="project-canvas" class="film"></canvas>
+    <div class="grade"></div>
+    <div class="vignette"></div>
+    <div class="caption cap-left" data-in="0.05" data-hold="0.20" data-out="0.42">
+      <p class="kicker" style="color:var(--magenta);">Sur Mesure — Custom creation</p>
+      <h2>PROJECT<span style="color:var(--magenta);">+</span></h2>
+      <p class="sub lead" style="margin-top:18px;">A futuristic creative workshop for companies who need
+        custom design projects and specific creative solutions.</p>
+    </div>
+    <div class="caption cap-bottom" data-in="0.62" data-hold="0.78" data-out="0.96">
+      <span class="pill">Custom quote</span>
+      <div><a class="cta-btn" href="#cta-track" style="pointer-events:auto;">Discuss a project</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. PRICING — Forfaits comparison
+     ============================================================ -->
+<section class="bp" id="pricing">
+  <div data-reveal style="text-align:center; max-width:640px; margin:0 auto 8vh;">
+    <p class="kicker accent">Transparent pricing</p>
+    <h2 style="max-width:none; margin-top:18px;">Pick your world. See exactly what's included.</h2>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card" data-reveal>
+      <p class="kicker" style="color:var(--lilac);">Essentiel</p>
+      <div class="pricing-amount"><span>1,500€</span><small>/ month</small></div>
+      <p class="lead">For entrepreneurs and new brands building their first complete identity.</p>
+      <ul class="pricing-features">
+        <li>Branding &amp; launch materials</li>
+        <li>Creative direction</li>
+        <li>1 active request at a time</li>
+        <li>~48h average turnaround</li>
+      </ul>
+      <a class="cta-btn" href="#start-track" style="pointer-events:auto;">Explore Essentiel</a>
+    </div>
+    <div class="pricing-card featured" data-reveal data-reveal-delay="1">
+      <p class="pricing-badge">Most popular</p>
+      <p class="kicker" style="color:var(--cyan);">Signature</p>
+      <div class="pricing-amount"><span>4,500€</span><small>/ month</small></div>
+      <p class="lead">A limitless creative universe — unlimited requests, all styles, all sectors.</p>
+      <ul class="pricing-features">
+        <li>Unlimited requests</li>
+        <li>Visuals, video, print, multi-page, identity</li>
+        <li>No commitment, cancel anytime</li>
+        <li>~48h average turnaround</li>
+      </ul>
+      <a class="cta-btn" href="#pass-track" style="pointer-events:auto;">Explore Signature</a>
+    </div>
+    <div class="pricing-card" data-reveal data-reveal-delay="2">
+      <p class="kicker" style="color:var(--magenta);">Sur Mesure</p>
+      <div class="pricing-amount"><span>Custom</span></div>
+      <p class="lead">For companies who need custom design projects and specific creative solutions.</p>
+      <ul class="pricing-features">
+        <li>Scoped project quote</li>
+        <li>Dedicated creative workshop</li>
+        <li>Flexible delivery timeline</li>
+        <li>Full creative ownership</li>
+      </ul>
+      <a class="cta-btn" href="#project-track" style="pointer-events:auto;">Discuss Sur Mesure</a>
+    </div>
+  </div>
+</section>
+
+<!-- stats strip -->
+<section class="bp bp-tight">
+  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:8vw; text-align:center;">
+    <div data-reveal><div style="font-family:var(--f-display); font-size:clamp(34px,4.4vw,64px); color:var(--cyan);">∞</div><div class="kicker" style="margin-top:6px;">Requests, unlimited</div></div>
+    <div data-reveal data-reveal-delay="1"><div style="font-family:var(--f-display); font-size:clamp(34px,4.4vw,64px);">48h</div><div class="kicker" style="margin-top:6px;">Average turnaround</div></div>
+    <div data-reveal data-reveal-delay="2"><div style="font-family:var(--f-display); font-size:clamp(34px,4.4vw,64px);">3</div><div class="kicker" style="margin-top:6px;">Creative worlds</div></div>
+    <div data-reveal data-reveal-delay="3"><div style="font-family:var(--f-display); font-size:clamp(34px,4.4vw,64px);">0</div><div class="kicker" style="margin-top:6px;">Long-term commitment</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. CREATIVE PROCESS
+     ============================================================ -->
+<section class="stage-track" id="process-track" style="height:320vh;">
+  <div class="stage" id="process-stage">
+    <canvas id="process-canvas" class="film"></canvas>
+    <div class="grade"></div>
+    <div class="vignette"></div>
+
+    <div class="gl-copy cap-top" style="top:9vh;">
+      <p class="kicker accent">The journey</p>
+    </div>
+
+    <div class="caption cap-left" id="proc-1" data-in="-0.02" data-hold="0.10" data-out="0.22">
+      <p class="kicker" style="color:var(--cyan);">01 — Discovery</p>
+      <h2>We enter<br>your world first.</h2>
+    </div>
+    <div class="caption cap-right" id="proc-2" data-in="0.24" data-hold="0.36" data-out="0.48">
+      <p class="kicker" style="color:var(--purple);">02 — Concept</p>
+      <h2>Raw energy,<br>given direction.</h2>
+    </div>
+    <div class="caption cap-left" id="proc-3" data-in="0.50" data-hold="0.62" data-out="0.74">
+      <p class="kicker" style="color:var(--lilac);">03 — Design</p>
+      <h2>Ideas take<br>their final shape.</h2>
+    </div>
+    <div class="caption cap-right" id="proc-4" data-in="0.76" data-hold="0.88" data-out="1.02">
+      <p class="kicker" style="color:var(--magenta);">04 — Delivery</p>
+      <h2>Arrival, ready<br>to launch.</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. INFOS PRATIQUES — trust & reassurance
+     ============================================================ -->
+<section class="bp" id="practical">
+  <div data-reveal style="text-align:center; max-width:640px; margin:0 auto 8vh;">
+    <p class="kicker accent">Good to know</p>
+    <h2 style="max-width:none; margin-top:18px;">The practical side of working with us.</h2>
+  </div>
+  <div class="practical-grid">
+    <div class="practical-item" data-reveal>
+      <h4>Trial conditions</h4>
+      <p class="lead">Start with a single request before committing — see the quality and speed for yourself.</p>
+    </div>
+    <div class="practical-item" data-reveal data-reveal-delay="1">
+      <h4>Order flexibility</h4>
+      <p class="lead">Queue requests, reprioritize anytime, and adjust scope as your needs change.</p>
+    </div>
+    <div class="practical-item" data-reveal data-reveal-delay="2">
+      <h4>Transparency</h4>
+      <p class="lead">Clear pricing, clear timelines, no hidden fees — you always know what you're getting.</p>
+    </div>
+    <div class="practical-item" data-reveal data-reveal-delay="3">
+      <h4>Satisfaction guarantee</h4>
+      <p class="lead">Unlimited revisions until you're happy with the result, on every request.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     7. PORTFOLIO (floating gallery, WebGL)
+     ============================================================ -->
+<section class="gl-track" id="portfolio-track" style="height:320vh;">
+  <div class="gl-stage" id="portfolio">
+    <canvas id="portfolio-canvas"></canvas>
+    <div class="vignette" style="z-index:4; opacity:0.7;"></div>
+    <div class="gl-copy cap-top" style="top:8vh; left:50%; transform:translateX(-50%); text-align:center;">
+      <p class="kicker accent">Selected work</p>
+      <h2 style="margin-top:14px;">Proof, not promises.</h2>
+    </div>
+    <div class="gl-copy" id="portfolio-label" style="left:50%; bottom:9vh; transform:translateX(-50%); text-align:center; transition:opacity 0.4s ease;">
+      <p class="kicker" id="portfolio-label-text">Branding — 01</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. FINAL CTA (frame-scrub, end slide)
+     ============================================================ -->
+<section class="stage-track" id="cta-track" style="height:260vh;">
+  <div class="stage">
+    <canvas id="cta-canvas" class="film"></canvas>
+    <canvas id="cta-fx" class="fx"></canvas>
+    <div class="grade"></div>
+    <div class="vignette"></div>
+    <div class="caption cap-center" data-in="0.42" data-hold="0.60" data-out="0.85">
+      <p class="kicker accent" style="margin-bottom:18px;">The next world</p>
+      <h1 style="max-width:14ch; margin:0 auto;">The next creative world<br>begins with <span class="glow-text">SOLI.</span></h1>
+      <div><a class="cta-btn" href="#contact-express">Start your creative journey →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     9. CONTACT EXPRESS
+     ============================================================ -->
+<section class="bp bp-tight" id="contact-express">
+  <div class="contact-card" data-reveal style="max-width:640px; margin:0 auto;">
+    <p class="kicker accent" style="text-align:center;">Contact express</p>
+    <h2 style="text-align:center; margin-top:14px; max-width:none;">Tell us about your project.</h2>
+    <p class="lead" style="text-align:center; margin:14px auto 0;">Reply within 24h.</p>
+
+    <form id="contact-form" style="margin-top:6vh;">
+      <div class="tier-select" role="radiogroup" aria-label="Which plan interests you?">
+        <button type="button" class="tier-pill" data-tier="Essentiel">Essentiel</button>
+        <button type="button" class="tier-pill" data-tier="Signature">Signature</button>
+        <button type="button" class="tier-pill" data-tier="Sur Mesure">Sur Mesure</button>
+      </div>
+      <textarea id="contact-message" placeholder="Describe your project…" rows="4" required></textarea>
+      <button type="submit" class="cta-btn" style="pointer-events:auto; width:100%; justify-content:center; margin-top:18px;">Submit</button>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer" id="contact">
+  <div class="cols">
+    <div>
+      <div class="fmark"><b>SOLI</b><span style="color:var(--cyan);">+</span></div>
+      <p class="lead" style="margin-top:14px; font-size:13px;">An unlimited creative partner for brands that don't have —
+        or don't have enough — design support.</p>
+      <div class="social">
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="Instagram">ig</a>
+      </div>
+    </div>
+    <div>
+      <h4>Studio</h4>
+      <a href="#who">Who we are</a>
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#process">Process</a>
+    </div>
+    <div>
+      <h4>Offers</h4>
+      <a href="#start-track">Essentiel</a>
+      <a href="#pass-track">Signature</a>
+      <a href="#project-track">Sur Mesure</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="mailto:hello@soli.studio">hello@soli.studio</a>
+      <a href="#contact-express">Start a project</a>
+    </div>
+    <div>
+      <h4>More</h4>
+      <a href="#">Blog</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+  <p class="fine">© 2026 SOLI+. Creative worlds, built to order.</p>
+</footer>
+
+<script src="js/vendor/gsap/gsap.min.js"></script>
+<script src="js/vendor/gsap/ScrollTrigger.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
